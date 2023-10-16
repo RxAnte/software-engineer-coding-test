@@ -1,0 +1,21 @@
+node_modules
+vendor
+
+
+#------------------------------------
+# Systems
+#------------------------------------
+
+.cache
+.DS_Store
+.tmp
+*.diff
+*.err
+*.log
+*.orig
+*.rej
+*.swo
+*.swp
+*.vi
+error_log
+Thumbs.db
