@@ -3,4 +3,21 @@
 
 declare(strict_types=1);
 
-echo 'hello world';
+use Config\Commands;
+use Config\Container;
+use Silly\Application;
+
+require __DIR__ . '/vendor/autoload.php';
+
+$container = Container::create();
+
+/** @noinspection PhpUnhandledExceptionInspection */
+$app = $container->get(Application::class);
+assert($app instanceof Application);
+
+$app->useContainer($container);
+
+Commands::create($app);
+
+/** @noinspection PhpUnhandledExceptionInspection */
+$app->run();
