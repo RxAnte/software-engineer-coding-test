@@ -72,6 +72,7 @@
       <path value="$PROJECT_DIR$/api/vendor/psr/http-server-middleware" />
       <path value="$PROJECT_DIR$/api/vendor/psr/http-server-handler" />
       <path value="$PROJECT_DIR$/api/vendor/symfony/polyfill-php80" />
+      <path value="$PROJECT_DIR$/api/vendor/spatie/php-cloneable" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.2" />

@@ -18,7 +18,7 @@ readonly class CreateToDoTable
     {
         $sql = implode(' ', [
             'CREATE TABLE IF NOT EXISTS',
-            '"todos"',
+            '" ' . ToDoRecord::getTableName() . ' "',
             '(',
             '"id" varchar NOT NULL DEFAULT "",',
             '"title" varchar NOT NULL DEFAULT "",',
