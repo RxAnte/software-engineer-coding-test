@@ -1,12 +1,21 @@
+'use client';
+
 import './globals.css';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { QueryClient } from '@tanstack/query-core';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { ReactNode } from 'react';
 import Nav from './Nav';
 
-const RootLayout = ({
-    children,
-}: {
-    children: ReactNode;
-}) => (
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            refetchOnWindowFocus: false,
+        },
+    },
+});
+
+const RootLayout = ({ children }: { children: ReactNode }) => (
     <>
         <html lang="en">
             <body>
@@ -15,9 +24,12 @@ const RootLayout = ({
                         <Nav />
                     </div>
                 </div>
-                <div>
-                    {children}
-                </div>
+                <main>
+                    <QueryClientProvider client={queryClient}>
+                        {children}
+                        <ReactQueryDevtools />
+                    </QueryClientProvider>
+                </main>
             </body>
         </html>
     </>
