@@ -31,7 +31,6 @@ export default class WebNode extends Command {
                 `
                     docker run -it --rm \
                         --entrypoint "" \
-                        --env NODE_ENV=development \
                         --name rxeffect_web-node \
                         -v "${rootDir}/web:/app" \
                         -w /app \
@@ -49,7 +48,6 @@ export default class WebNode extends Command {
             `
                 docker run -it --rm \
                     --entrypoint "" \
-                    --env NODE_ENV=development \
                     --name rxeffect_web-node \
                     -v "${rootDir}/web:/app" \
                     -w /app \
