@@ -15,7 +15,7 @@ You will need the following on your computer to run the environment:
 2. In your favorite terminal app, CD to the cloned repo on your disk and run `./dev docker up`. This should run all the provisioning and the Docker build so the first time will take a minute.
 3. After the environment is online, run `./dev docker container api php cli schema:up`
 4. You can now go to http://localhost:55782/ and play around with the ToDo feature of the app.
-5. Also note if you need to access the PHP API URL directly, it is at http://localhost:55781/
+5. Also note if you need to access the PHP API URL directly, the base URL is http://localhost:55781/. So, for instance, if you want to see the JSON of the TODO list the API returns, go to http://localhost:55781/todos
 
 ## Working on the feature
 
