@@ -8,7 +8,6 @@ NEXT_DIR="${WEB_DIR}/.next";
 
 docker run --rm \
     --entrypoint "" \
-    --env NODE_ENV=development \
     --name web-provision \
     -v "${WEB_DIR}:/app" \
     -w /app \
@@ -19,7 +18,6 @@ if [ ! -d "${NEXT_DIR}" ]; then
 
     docker run -it --rm \
         --entrypoint "" \
-        --env NODE_ENV=development \
         --name web-provision \
         -v "${WEB_DIR}:/app" \
         -w /app \
