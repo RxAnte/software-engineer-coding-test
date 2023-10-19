@@ -53,55 +53,60 @@ const AddToDoOverlay = (
                             <div className="w-full relative">
                                 <div className="mx-auto max-w-2xl">
                                     <div className="m-4 relative">
-                                        <div className="overflow-hidden rounded-lg border border-gray-300 focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-indigo-500 bg-white shadow-xl">
-                                            <label htmlFor="title" className="sr-only">Title</label>
-                                            <input
-                                                type="text"
-                                                name="title"
-                                                id="title"
-                                                className="block w-full border-0 pt-2.5 text-lg font-medium placeholder:text-gray-400 focus:ring-0 focus-visible:border-0 focus-visible:outline-0 px-3"
-                                                placeholder="Title"
-                                                value={titleValue}
-                                                onChange={(event) => {
-                                                    setTitleValue(event.target.value);
-                                                }}
-                                            />
-                                            <div aria-hidden="true">
-                                                <div className="py-1" />
-                                                <div className="h-px" />
-                                                <div className="py-2">
-                                                    <div className="py-px">
-                                                        <div className="h-9" />
+                                        <form
+                                            onSubmit={(event) => {
+                                                event.preventDefault();
+
+                                                mutation.mutate({
+                                                    title: titleValue,
+                                                });
+                                            }}
+                                        >
+                                            <div className="overflow-hidden rounded-lg border border-gray-300 focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-indigo-500 bg-white shadow-xl">
+                                                <label htmlFor="title" className="sr-only">Title</label>
+                                                <input
+                                                    type="text"
+                                                    name="title"
+                                                    id="title"
+                                                    className="block w-full border-0 pt-2.5 text-lg font-medium placeholder:text-gray-400 focus:ring-0 focus-visible:border-0 focus-visible:outline-0 px-3"
+                                                    placeholder="Title"
+                                                    value={titleValue}
+                                                    onChange={(event) => {
+                                                        setTitleValue(event.target.value);
+                                                    }}
+                                                />
+                                                <div aria-hidden="true">
+                                                    <div className="py-1" />
+                                                    <div className="h-px" />
+                                                    <div className="py-2">
+                                                        <div className="py-px">
+                                                            <div className="h-9" />
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div className="absolute inset-x-px bottom-0">
-                                            <div className="border-t border-gray-200 px-2 py-2 sm:px-3">
-                                                <div className="text-right">
-                                                    <button
-                                                        onClick={() => {
-                                                            setIsOpen(false);
-                                                        }}
-                                                        type="button"
-                                                        className="rounded-full border border-gray-200 px-4 py-2.5 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                                                    >
-                                                        Cancel
-                                                    </button>
-                                                    <button
-                                                        type="button"
-                                                        className="rounded-full bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 ml-1"
-                                                        onClick={() => {
-                                                            mutation.mutate({
-                                                                title: titleValue,
-                                                            });
-                                                        }}
-                                                    >
-                                                        Create
-                                                    </button>
+                                            <div className="absolute inset-x-px bottom-0">
+                                                <div className="border-t border-gray-200 px-2 py-2 sm:px-3">
+                                                    <div className="text-right">
+                                                        <button
+                                                            onClick={() => {
+                                                                setIsOpen(false);
+                                                            }}
+                                                            type="button"
+                                                            className="rounded-full border border-gray-200 px-4 py-2.5 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                                        >
+                                                            Cancel
+                                                        </button>
+                                                        <button
+                                                            type="submit"
+                                                            className="rounded-full bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 ml-1"
+                                                        >
+                                                            Create
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
