@@ -22,13 +22,11 @@ readonly class FindToDos
             ToDoRecord::getTableName(),
         ];
 
-        $params = [];
-
         $statement = $this->pdo->prepare(
             implode(' ', $query),
         );
 
-        $statement->execute($params);
+        $statement->execute();
 
         $results = $statement->fetchAll(
             PDO::FETCH_CLASS,
