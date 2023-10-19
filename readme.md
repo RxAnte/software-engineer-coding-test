@@ -6,7 +6,10 @@ The goal here is to create a “notes” feature in this app. The UI has already
 
 ## Getting Local Env Up and Running
 
-The only thing you _should_ need is [Docker Desktop](https://www.docker.com/products/docker-desktop/).
+You will need the following on your computer to run the environment:
+
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+- [Node 18 or later](https://formulae.brew.sh/formula/node#default) (for running the local CLI)
 
 1. Clone this repo to your local computer
 2. In your favorite terminal app, CD to the cloned repo on your disk and run `./dev docker up`. This should run all the provisioning and the Docker build so the first time will take a minute.
@@ -41,8 +44,8 @@ Your RxAnte contact is also available to help show you around a little if you ge
 
 #### Option 1
 
-If you don't mind your work being public, fork this repo and open up a PR when ready so we can review the code. Let your RxAnte contact know when you’re ready.
+If you don’t mind your work being public, fork this repo and open up a PR when ready so we can review the code. Let your RxAnte contact know when you’re ready.
 
 #### Option 2
 
-If you need to keep this on the DL, clone this repo down to your local computer, create your own private repository, change the origin of the cloned repo on your computer to your private repository, and push your updates to a new branch so you can open up a PR against main that we can look at. Invite your RxAnte contact as a collaborator on the private repo for review when you're ready.
+If you need to keep this on the DL, clone this repo down to your local computer, create your own private repository, change the origin of the cloned repo on your computer to your private repository, and push your updates to a new branch so you can open up a PR against main that we can look at. Invite your RxAnte contact as a collaborator on the private repo for review when you’re ready.
