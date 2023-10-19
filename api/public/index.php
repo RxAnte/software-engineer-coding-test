@@ -10,6 +10,16 @@ require dirname(__DIR__) . '/vendor/autoload.php';
 
 $app = AppFactory::create(container: Container::create());
 
+$app->addBodyParsingMiddleware();
+
+$app->addRoutingMiddleware();
+
+$app->addErrorMiddleware(
+    true,
+    true,
+    true,
+);
+
 Routes::create($app);
 
 $app->run();

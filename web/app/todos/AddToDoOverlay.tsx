@@ -2,9 +2,10 @@ import { createPortal } from 'react-dom';
 import {
     Dispatch,
     SetStateAction,
-    Fragment,
+    Fragment, useState,
 } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
+import { useAddToDoMutation } from './ToDoData';
 
 const AddToDoOverlay = (
     {
@@ -15,7 +16,12 @@ const AddToDoOverlay = (
         setIsOpen: Dispatch<SetStateAction<boolean>>;
     },
 ) => {
-    console.log('here');
+    const [titleValue, setTitleValue] = useState('');
+
+    const mutation = useAddToDoMutation(() => {
+        setIsOpen(false);
+        setTitleValue('');
+    });
 
     return createPortal(
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -55,6 +61,10 @@ const AddToDoOverlay = (
                                                 id="title"
                                                 className="block w-full border-0 pt-2.5 text-lg font-medium placeholder:text-gray-400 focus:ring-0 focus-visible:border-0 focus-visible:outline-0 px-3"
                                                 placeholder="Title"
+                                                value={titleValue}
+                                                onChange={(event) => {
+                                                    setTitleValue(event.target.value);
+                                                }}
                                             />
                                             <div aria-hidden="true">
                                                 <div className="py-1" />
@@ -81,6 +91,11 @@ const AddToDoOverlay = (
                                                     <button
                                                         type="button"
                                                         className="rounded-full bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 ml-1"
+                                                        onClick={() => {
+                                                            mutation.mutate({
+                                                                title: titleValue,
+                                                            });
+                                                        }}
                                                     >
                                                         Create
                                                     </button>

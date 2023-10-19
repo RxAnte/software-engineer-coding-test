@@ -1,13 +1,10 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
 import Loading from '../Loading';
-import { ToDo } from './ToDo';
 import useAddToDo from './useAddToDo';
+import { useToDoData } from './ToDoData';
 
 const HomePage = () => {
-    const fetchUrl = 'http://localhost:55781/todos';
-
     const {
         setIsOpen,
         renderOverlay,
@@ -16,14 +13,7 @@ const HomePage = () => {
     const {
         status,
         data,
-    } = useQuery<Array<ToDo>>({
-        queryKey: [fetchUrl],
-        queryFn: async () => {
-            const response = await fetch(fetchUrl);
-
-            return response.json();
-        },
-    });
+    } = useToDoData();
 
     if (status === 'loading') {
         return <Loading />;
@@ -59,6 +49,7 @@ const HomePage = () => {
 
     return (
         <>
+            {renderOverlay}
             <div className="p-1 m-4 text-right">
                 <button
                     onClick={() => {
