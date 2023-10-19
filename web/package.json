@@ -9,15 +9,16 @@
     },
     "dependencies": {
         "@headlessui/react": "^1.4.3",
-        "@heroicons/react": "^1.0.6",
+        "@heroicons/react": "^2.0.18",
         "@tailwindcss/typography": "^0.5.2",
         "@tanstack/query-core": "^4.2.1",
         "@tanstack/react-query": "^4.2.1",
         "@tanstack/react-query-devtools": "^4.2.1",
+        "@types/react-dom": "^18.2.14",
         "eslint-plugin-disable": "^2.0.3",
         "next": "13.5.5",
         "react": "18.2.0",
-        "react-dom": "18.2.0",
+        "react-dom": "^18.2.0",
         "react-toastify": "^9.0.8",
         "zod": "^3.19.1"
     },
