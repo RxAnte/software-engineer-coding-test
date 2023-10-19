@@ -39,3 +39,57 @@ export const useAddToDoMutation = (onSuccess?: () => void) => {
         },
     });
 };
+
+export const useMarkAsDoneMutation = (id: string) => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: async () => fetch(`${fetchUrl}/${id}/mark/done`, {
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            method: 'PATCH',
+        }),
+        onSuccess: async () => {
+            // noinspection ES6MissingAwait
+            queryClient.invalidateQueries([fetchUrl]);
+        },
+    });
+};
+
+export const useMarkAsNotDoneMutation = (id: string) => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: async () => fetch(`${fetchUrl}/${id}/mark/not-done`, {
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            method: 'PATCH',
+        }),
+        onSuccess: async () => {
+            // noinspection ES6MissingAwait
+            queryClient.invalidateQueries([fetchUrl]);
+        },
+    });
+};
+
+export const useDeleteMutation = (id: string) => {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: async () => fetch(`${fetchUrl}/${id}`, {
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            method: 'DELETE',
+        }),
+        onSuccess: async () => {
+            // noinspection ES6MissingAwait
+            queryClient.invalidateQueries([fetchUrl]);
+        },
+    });
+};

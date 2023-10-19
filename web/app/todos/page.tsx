@@ -3,6 +3,7 @@
 import Loading from '../Loading';
 import useAddToDo from './useAddToDo';
 import { useToDoData } from './ToDoData';
+import ToDoItem from './ToDoItem';
 
 const HomePage = () => {
     const {
@@ -66,34 +67,7 @@ const HomePage = () => {
             </div>
             <div className="p-4 border border-gray-100 rounded-md shadow-md m-4">
                 <ul className="divide-y divide-gray-100">
-                    {data.map((item) => (
-                        <li
-                            key={item.id}
-                            className="flex items-center justify-between gap-x-6 py-5"
-                        >
-                            <div className="flex min-w-0 gap-x-4">
-                                <div className="min-w-0 flex-auto">
-                                    <p className={`text-sm font-semibold leading-6 ${item.isDone ? 'line-through text-gray-400' : 'text-gray-900'}`}>
-                                        {item.title}
-                                    </p>
-                                </div>
-                            </div>
-                            <div>
-                                <button
-                                    type="button"
-                                    className="rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-                                >
-                                    {item.isDone ? 'Mark Not Done' : 'Mark Done'}
-                                </button>
-                                <button
-                                    type="button"
-                                    className="ml-1 rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-                                >
-                                    Delete
-                                </button>
-                            </div>
-                        </li>
-                    ))}
+                    {data.map((item) => <ToDoItem key={item.id} item={item} />)}
                 </ul>
             </div>
         </>

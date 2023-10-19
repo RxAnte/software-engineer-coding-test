@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace SoftwareEngineering\Persistence;
+namespace SoftwareEngineering;
 
 use function implode;
 

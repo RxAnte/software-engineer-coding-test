@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SoftwareEngineering\ToDos;
 
+use function array_filter;
 use function array_map;
 use function array_values;
 
@@ -28,6 +29,31 @@ class ToDoCollection
             $callback,
             $this->entities,
         ));
+    }
+
+    public function filter(callable $callback): static
+    {
+        return new static(array_filter(
+            $this->entities,
+            $callback,
+        ));
+    }
+
+    public function filterById(string $id): self
+    {
+        return $this->filter(
+            static fn (ToDo $e) => $e->id->toNative() === $id
+        );
+    }
+
+    public function first(): ToDo
+    {
+        return $this->entities[0];
+    }
+
+    public function firstOrNull(): ToDo|null
+    {
+        return $this->entities[0] ?? null;
     }
 
     /** @return array<array-key, scalar[]> */

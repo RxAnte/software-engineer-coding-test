@@ -2,26 +2,26 @@
 
 declare(strict_types=1);
 
-namespace SoftwareEngineering\ToDos\Add;
+namespace SoftwareEngineering\ToDos\Delete;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Routing\RouteCollectorProxy;
 use SoftwareEngineering\ActionResultResponder;
-use SoftwareEngineering\ToDos\ToDoRepository;
 
-use function is_array;
+use function assert;
+use function is_string;
 
-readonly class PostAddToDoAction
+readonly class DeleteToDoAction
 {
     public static function setRoute(RouteCollectorProxy $routes): void
     {
-        $routes->post('/todos', self::class);
+        $routes->delete('/todos/{id}', self::class);
     }
 
     public function __construct(
-        private ToDoRepository $repository,
         private ActionResultResponder $responder,
+        private DeleteIfApplicable $delete,
     ) {
     }
 
@@ -29,13 +29,9 @@ readonly class PostAddToDoAction
         ServerRequestInterface $request,
         ResponseInterface $response,
     ): ResponseInterface {
-        $rawPostData = $request->getParsedBody();
-        $rawPostData = is_array($rawPostData) ? $rawPostData : [];
+        $id = $request->getAttribute('id');
+        assert(is_string($id));
 
-        $postData = PostData::createFromArray($rawPostData);
-
-        return $this->responder->respond($this->repository->create(
-            $postData->title->toNative(),
-        ));
+        return $this->responder->respond($this->delete->delete($id));
     }
 }

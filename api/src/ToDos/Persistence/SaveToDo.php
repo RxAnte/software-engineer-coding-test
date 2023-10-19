@@ -11,13 +11,13 @@ use function implode;
 
 // phpcs:disable Squiz.NamingConventions.ValidVariableName.MemberNotCamelCaps
 
-readonly class CreateToDo
+readonly class SaveToDo
 {
     public function __construct(private AppPdo $pdo)
     {
     }
 
-    public function create(ToDoRecord $record): ActionResult
+    public function save(ToDoRecord $record): ActionResult
     {
         if ($record->title === '') {
             return new ActionResult(
@@ -27,17 +27,17 @@ readonly class CreateToDo
         }
 
         $statement = $this->pdo->prepare(implode(' ', [
-            'INSERT INTO',
+            'UPDATE',
             $record->tableName(),
-            '(id, title, is_done)',
-            'VALUES',
-            '(:id, :title, :is_done)',
+            'SET',
+            'title = :title, is_done = :is_done',
+            'WHERE id = :id',
         ]));
 
         $result = $statement->execute([
-            'id' => $record->id,
-            'title' => $record->title,
-            'is_done' => $record->is_done,
+            ':title' => $record->title,
+            ':is_done' => $record->is_done,
+            ':id' => $record->id,
         ]);
 
         if (! $result) {
