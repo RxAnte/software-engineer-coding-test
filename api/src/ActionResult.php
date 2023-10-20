@@ -8,7 +8,7 @@ use function implode;
 
 use const PHP_EOL;
 
-class ActionResult
+readonly class ActionResult
 {
     /** @param string[] $message */
     public function __construct(

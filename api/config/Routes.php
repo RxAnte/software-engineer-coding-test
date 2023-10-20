@@ -11,7 +11,7 @@ use SoftwareEngineering\ToDos\GetToDoListAction;
 use SoftwareEngineering\ToDos\MarkDone\PatchMarkDoneAction;
 use SoftwareEngineering\ToDos\MarkNotDone\PatchMarkNotDoneAction;
 
-class Routes
+readonly class Routes
 {
     public static function create(RouteCollectorProxy $routes): void
     {

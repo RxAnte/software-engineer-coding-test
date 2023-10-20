@@ -8,7 +8,7 @@ use SoftwareEngineering\ActionResult;
 use SoftwareEngineering\ToDos\ToDoRepository;
 use SoftwareEngineering\ToDos\ValueObjects\IsDone;
 
-class MarkNotDoneIfApplicable
+readonly class MarkNotDoneIfApplicable
 {
     public function __construct(private ToDoRepository $repository)
     {

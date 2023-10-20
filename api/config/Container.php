@@ -16,7 +16,7 @@ use SoftwareEngineering\Persistence\AppPdoFactory;
 use function assert;
 use function implode;
 
-class Container
+readonly class Container
 {
     public static function create(): ContainerInterface
     {

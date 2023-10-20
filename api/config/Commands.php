@@ -7,7 +7,7 @@ namespace Config;
 use Silly\Application;
 use SoftwareEngineering\Persistence\CreateSchemaCommand;
 
-class Commands
+readonly class Commands
 {
     public static function create(Application $app): void
     {
