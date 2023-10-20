@@ -4,6 +4,8 @@ This test is to help us get an understanding of how you work, how you write code
 
 The goal here is to create a “notes” feature in this app. The UI has already been designed, so your job is to get it into an interactive set of pages in Next/React, and get PHP api endpoints responding to requests that Next/React sends to it.
 
+There are no tricks or gotchas in this project and no loopholes to jump through. You shouldn’t run into anything unexpected. It’s a simple, straight-forward feature add. There are no intentional errors for you to find and fix. If you run into trouble, please do let your contact at RxAnte know.
+
 ## Getting Local Env Up and Running
 
 You will need the following on your computer to run the environment:
@@ -42,10 +44,8 @@ Your RxAnte contact is also available to help show you around a little if you ge
 
 ### Process
 
-#### Option 1
-
-If you don’t mind your work being public, fork this repo and open up a PR when ready so we can review the code. Let your RxAnte contact know when you’re ready.
-
-#### Option 2
-
-If you need to keep this on the DL, clone this repo down to your local computer, create your own private repository, change the origin of the cloned repo on your computer to your private repository, and push your updates to a new branch so you can open up a PR against main that we can look at. Invite your RxAnte contact as a collaborator on the private repo for review when you’re ready.
+1. Clone this repo down to your local computer
+2. Create your own private repository
+3. Change the `origin` URL of the cloned repo on your computer to your new private repository
+4. As you work on the feature, push your updates to a new branch so you can open up a PR against main that we can look at
+5. Invite your RxAnte contact as a collaborator on the private repo, and assign them to the PR for review when you’re ready
