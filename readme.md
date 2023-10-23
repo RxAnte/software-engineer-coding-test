@@ -8,10 +8,14 @@ There are no tricks or gotchas in this project and no loopholes to jump through.
 
 ## Getting Local Env Up and Running
 
+_(Note, while this Docker environment may run on Windows with some slight modifications, and will almost certainly run on various flavors of Linux, this has been put together and tested on a Mac running macOS Ventura 13.6. If you’re using Windows or Linux and run into any trouble, your RxAnte contact will be happy to work with you as much as possible to see if this environment can be run on your system)_
+
 You will need the following on your computer to run the environment:
 
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 - [Node 18 or later](https://formulae.brew.sh/formula/node#default) (for running the local CLI)
+- [Yarn](https://formulae.brew.sh/formula/yarn#default) (tested with 1.22.19) (for running the local CLI)
+- [md5sha1sum](https://formulae.brew.sh/formula/md5sha1sum#default) (for running the local CLI)
 
 1. Clone this repo to your local computer
 2. In your favorite terminal app, CD to the cloned repo on your disk and run `./dev docker up`. This should run all the provisioning and the Docker build so the first time will take a minute.
