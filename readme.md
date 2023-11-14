@@ -13,11 +13,18 @@ _(Note, while this Docker environment may run on Windows with some slight modifi
 You will need the following on your computer to run the environment:
 
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/)
-- [Node 18 or later](https://formulae.brew.sh/formula/node#default) (for running the local CLI)
-- [Yarn](https://formulae.brew.sh/formula/yarn#default) (tested with 1.22.19) (for running the local CLI)
-- [md5sha1sum](https://formulae.brew.sh/formula/md5sha1sum#default) (for running the local CLI)
+- [Node 18 or later](https://nodejs.org/en/download)
+    - for running the local CLI
+    - Available via Homebrew on macOS (https://formulae.brew.sh/formula/node#default)
+- [Yarn](https://yarnpkg.com/)
+    - tested with 1.22.19
+    - for running the local CLI
+    - Available via Homebrew on macOS (https://formulae.brew.sh/formula/yarn#default)
+- md5sha1sum 
+    - for running the local CLI
+    - Available via Homebrew on macOS (https://formulae.brew.sh/formula/md5sha1sum#default)
 
-1. Clone this repo to your local computer
+1. Clone this repo to your local dev computer or environment
 2. In your favorite terminal app, CD to the cloned repo on your disk and run `./dev docker up`. This should run all the provisioning and the Docker build so the first time will take a minute.
 3. After the environment is online, run `./dev docker container api php cli schema:up`
 4. You can now go to http://localhost:55782/ and play around with the ToDo feature of the app.
