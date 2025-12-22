@@ -9,6 +9,8 @@ use Psr\Http\Message\ResponseInterface;
 
 use function json_encode;
 
+use const JSON_PRETTY_PRINT;
+
 readonly class ActionResultResponder
 {
     public function __construct(
@@ -24,6 +26,7 @@ readonly class ActionResultResponder
 
         $response->getBody()->write(json_encode(
             $result->asArray(),
+            JSON_PRETTY_PRINT,
         ));
 
         return $response->withHeader(

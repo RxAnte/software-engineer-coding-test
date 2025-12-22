@@ -10,6 +10,8 @@ use Slim\Routing\RouteCollectorProxy;
 
 use function json_encode;
 
+use const JSON_PRETTY_PRINT;
+
 readonly class GetToDoListAction
 {
     public static function setRoute(RouteCollectorProxy $routes): void
@@ -27,6 +29,7 @@ readonly class GetToDoListAction
     ): ResponseInterface {
         $response->getBody()->write(json_encode(
             $this->repository->findAll()->asArray(),
+            JSON_PRETTY_PRINT,
         ));
 
         return $response->withHeader(
