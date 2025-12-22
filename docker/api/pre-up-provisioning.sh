@@ -10,4 +10,4 @@ docker run -it --rm \
     --name api-provision \
     -v "${API_DIR}:/var/www" \
     -w /var/www \
-    software-engineering-codeing-test_api sh -c "composer install";
+    software-engineering-coding-test_api sh -c "composer install";

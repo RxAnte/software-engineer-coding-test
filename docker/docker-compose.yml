@@ -1,22 +1,20 @@
-version: '3.8'
-
 services:
   api:
-    container_name: software-engineering-codeing-test_api
-    image: software-engineering-codeing-test_api
+    container_name: software-engineering-coding-test_api
+    image: software-engineering-coding-test_api
     environment:
-      - HOSTNAME=software-engineering-codeing-test_api
+      - HOSTNAME=software-engineering-coding-test_api
     volumes:
       - ../api:/var/www:delegated
     ports:
       - "55781:80"
 
   web:
-    container_name: software-engineering-codeing-test_web
-    image: node:18.18.2
+    container_name: software-engineering-coding-test_web
+    image: software-engineering-coding-test_web
     working_dir: /app
     environment:
-      - HOSTNAME=software-engineering-codeing-test_web
+      - HOSTNAME=software-engineering-coding-test_web
     command:
       - "node_modules/.bin/next"
       - "dev"

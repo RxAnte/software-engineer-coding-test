@@ -1,23 +1,24 @@
-FROM --platform=$TARGETPLATFORM php:8.2.11-fpm-bullseye AS application
-ARG TARGETPLATFORM
+FROM php:8.4.5-fpm AS application
 ARG TARGETARCH
-ARG BUILDPLATFORM
-ARG BUILDARCH
 
 # Set the work directory to where we'll be installing/mounting the codebase
 WORKDIR /var/www
 
-#
+# Hadolint says DON'T DELETE A SYSTEM DIRECTORY but we have to remove the /bin
+# symlink and copy its target into place or we get weird things going on after
+# installing S6
+# hadolint ignore=SC2114
+RUN rm -rf /bin && cp -r /usr/bin /bin
+
 # s6 overlay init and process supervisor
-#
 ARG S6_VERSION=v1.22.1.0
 ENV S6_BEHAVIOUR_IF_STAGE2_FAILS=2
-RUN case ${TARGETARCH} in \
+RUN case "${TARGETARCH}" in \
         "amd64")  S6_ARCH=amd64  ;; \
         "arm64")  S6_ARCH=aarch64  ;; \
     esac \
-    && curl https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-${S6_ARCH}.tar.gz -L -s --output /tmp/s6-overlay-${S6_ARCH}.tar.gz \
-    && tar xvfz /tmp/s6-overlay-${S6_ARCH}.tar.gz -C / && rm /tmp/s6-overlay-${S6_ARCH}.tar.gz
+    && curl https://github.com/just-containers/s6-overlay/releases/download/"${S6_VERSION}"/s6-overlay-"${S6_ARCH}".tar.gz -L -s --output /tmp/s6-overlay-"${S6_ARCH}".tar.gz \
+    && tar xvfz /tmp/s6-overlay-"${S6_ARCH}".tar.gz -h -C / && rm /tmp/s6-overlay-"${S6_ARCH}".tar.gz
 
 # Install required packages
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -30,6 +31,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     openssl \
     libcurl4 \
     libcurl4-openssl-dev \
+    libpng-dev \
+    vim \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -49,13 +52,21 @@ RUN docker-php-ext-install mbstring \
 
 # Find at http://nginx.org/packages/mainline/debian/pool/nginx/n/nginx/
 # and http://nginx.org/packages/mainline/debian/pool/nginx/n/nginx-module-njs/
-ARG NGINX_VERSION=1.21.4
-ARG NJS_VERSION=0.7.0
-ARG PKG_RELEASE=1~bullseye
+ARG NGINX_VERSION=1.27.4
+ARG NJS_VERSION=0.8.8
+ARG PKG_RELEASE=1~bookworm
 
-RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62 \
-    && echo "deb http://nginx.org/packages/mainline/debian/ bullseye nginx" >> /etc/apt/sources.list \
-    && apt-get update && apt-get install -y --no-install-recommends --no-install-suggests \
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends curl gnupg ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+RUN curl -fsSL https://nginx.org/keys/nginx_signing.key \
+      | gpg --dearmor -o /usr/share/keyrings/nginx-archive-keyring.gpg \
+    && echo "deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] http://nginx.org/packages/mainline/debian/ bookworm nginx" \
+      > /etc/apt/sources.list.d/nginx.list
+
+RUN apt-get update && apt-get install -y --no-install-recommends --no-install-suggests \
         ca-certificates \
         nginx=${NGINX_VERSION}-${PKG_RELEASE} \
         nginx-module-xslt=${NGINX_VERSION}-${PKG_RELEASE} \
@@ -63,7 +74,7 @@ RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 573BFD6B3D
         nginx-module-image-filter=${NGINX_VERSION}-${PKG_RELEASE} \
         nginx-module-perl=${NGINX_VERSION}-${PKG_RELEASE} \
         nginx-module-njs=${NGINX_VERSION}+${NJS_VERSION}-${PKG_RELEASE} \
-        gettext-base \
+        gettext-base=0.21-12 \
     # Cleanup
     && rm -rf /var/lib/apt/lists/*
 
@@ -75,7 +86,7 @@ EXPOSE 80
 
 # Add composer
 # hadolint ignore=DL3022
-COPY --from=composer:2.5.5 /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2.8.6 /usr/bin/composer /usr/bin/composer
 
 # Standard production config
 RUN mv $PHP_INI_DIR/php.ini-production $PHP_INI_DIR/php.ini
@@ -85,7 +96,7 @@ COPY docker/api/php/php-fpm.conf /usr/local/etc/php-fpm.d/zzz-custom.conf
 COPY docker/api/php/php.ini $PHP_INI_DIR/conf.d/
 
 # Install xdebug
-RUN pecl install xdebug-3.2.2
+RUN pecl install xdebug-3.4.2
 COPY docker/api/php/xdebug.ini $PHP_INI_DIR/disabled/
 
 # Custom nginx config

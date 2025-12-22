@@ -1,43 +1,54 @@
-#!/usr/bin/env bash
+#!/usr/bin/env php84
+<?php
 
-# Ensure CLI is installed
-# shellcheck disable=SC2164
-cd ./cli
-if ! yarn check --integrity 2>/dev/null | grep -q 'success Folder in sync.'; then
-    echo "Installing the cli...";
-    yarn install;
-    echo "";
-fi
-cd ../;
+declare(strict_types=1);
 
-# Run eslint on the CLI code if requested
-if [[ "${1}" = "eslint" ]]; then
-    cd ./cli;
-    NODE_OPTIONS="--trace-warnings" yarn lint --max-warnings=0;
-    exit;
-fi
+$devCliSrcPath = __DIR__ . '/devCliSrc';
 
-# Run in dev mode if requested
-if [[ "${1}" = "dev-mode" ]]; then
-    # Send all arguments except the first one
-    ./cli/bin/dev "${@:2}";
-    exit;
-fi
+require_once $devCliSrcPath . '/Console.php';
 
-# Build new CLI if the cli/src directory has changed since last build
-SRC_DIR_HASH_FILE=$(pwd)/cli/.src-dir-hash;
-touch "${SRC_DIR_HASH_FILE}";
-SRC_DIR_HASH_FILE_CONTENT=$(<"${SRC_DIR_HASH_FILE}");
-SRC_DIR_HASH=$(find cli/src/ -type f -exec md5sum {} \; | md5sum);
+$composerLockHashCachePath = $devCliSrcPath . '/composerLockHashCache';
+$composerLockFilePath = $devCliSrcPath . '/composer.lock';
+$vendorAutoLoad = $devCliSrcPath . '/vendor/autoload.php';
 
-if [[ "${SRC_DIR_HASH}" != "${SRC_DIR_HASH_FILE_CONTENT}" ]]; then
-    cd ./cli;
-    echo 'CLI source files have changed since last build. Building a fresh CLI now…';
-    yarn build;
-    echo "${SRC_DIR_HASH}" > "${SRC_DIR_HASH_FILE}";
-    echo '';
-    cd ../;
-fi
+if (!file_exists($composerLockHashCachePath)) {
+    touch($composerLockHashCachePath);
+}
 
-# Otherwise, run the CLI
-./cli/bin/run "${@}";
+$composerLockHash = '';
+if (file_exists($composerLockFilePath)) {
+    $composerLockHash = md5_file($composerLockFilePath);
+}
+$composerLockHashCache = trim(
+    (string) file_get_contents($composerLockHashCachePath)
+);
+
+if (
+    !file_exists($vendorAutoLoad) ||
+    $composerLockHash !== $composerLockHashCache
+) {
+    Console::writeLn(
+        'The CLI dependencies have not been installed, installing now…' . PHP_EOL,
+        ConsoleForegroundColors::yellow
+    );
+
+    shell_exec('cd ' . $devCliSrcPath . ' && composer install');
+
+    $composerLockHash = md5_file($composerLockFilePath);
+
+    file_put_contents(
+        $composerLockHashCachePath,
+        $composerLockHash
+    );
+
+    echo PHP_EOL;
+    echo PHP_EOL;
+
+    Console::writeLn(
+        'CLI dependencies have now been installed.' . PHP_EOL,
+        ConsoleForegroundColors::green
+    );
+    echo PHP_EOL;
+}
+
+require $devCliSrcPath . '/cli.php';

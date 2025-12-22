@@ -11,7 +11,7 @@ docker run --rm \
     --name web-provision \
     -v "${WEB_DIR}:/app" \
     -w /app \
-    node:18.18.2 sh -c "yarn install";
+    software-engineering-coding-test_web sh -c "yarn install";
 
 if [ ! -d "${NEXT_DIR}" ]; then
     echo "Running local next build...";
@@ -21,7 +21,7 @@ if [ ! -d "${NEXT_DIR}" ]; then
         --name web-provision \
         -v "${WEB_DIR}:/app" \
         -w /app \
-        node:18.18.2 sh -c "yarn build";
+        software-engineering-coding-test_web sh -c "yarn build";
 else
     echo 'Local next build already exists. If the web container fails to run, ./dev docker container web-node "yarn build"';
 fi
